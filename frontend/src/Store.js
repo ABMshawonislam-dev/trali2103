@@ -5,6 +5,7 @@ const Store = createContext()
 
 const userInitialState = {
     userInfo: localStorage.getItem('userInfo')? JSON.parse(localStorage.getItem('userInfo')): null
+
 }
 
 function userReducer(state,action){

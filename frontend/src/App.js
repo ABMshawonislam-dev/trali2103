@@ -8,6 +8,9 @@ import Home from "./pages/Home";
 import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import Vendor from "./pages/Vendor";
+import Dashboard from "./pages/Dashboard";
+import ProductUpload from "./pages/ProductUpload";
+import Storename from "./pages/Storename";
 function App() {
   return (
     <>
@@ -18,6 +21,9 @@ function App() {
       <Route path="/registration" element={<Registration />}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/vendor" element={<Vendor />}></Route>
+      <Route path="/dashboard" element={<Dashboard />}></Route>
+      <Route path="/productupload" element={<ProductUpload />}></Route>
+      <Route path="/storename" element={<Storename />}></Route>
     </Routes>
   </BrowserRouter>
       

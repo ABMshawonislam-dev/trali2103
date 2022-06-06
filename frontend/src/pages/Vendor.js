@@ -11,6 +11,8 @@ const Vendor = () => {
         console.log(state.userInfo._id)
         let {data} = await axios.put(`http://localhost:8000/vendor/${state.userInfo._id}`)
         console.log(data)
+        localStorage.removeItem('userInfo')
+        localStorage.setItem('userInfo',JSON.stringify(data))
     }
   return (
     <div className='container'>

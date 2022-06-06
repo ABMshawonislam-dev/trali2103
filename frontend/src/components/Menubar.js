@@ -55,8 +55,20 @@ const Menubar = () => {
               <Dropdown.Item>Download As...</Dropdown.Item>
               <Dropdown.Item>Export PDF</Dropdown.Item>
               <Dropdown.Item>Export HTML</Dropdown.Item>
-              <Dropdown.Item>Become A Vendor</Dropdown.Item>
-              <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+              {state.userInfo.isVendor
+              ?
+              <Dropdown.Item>
+                <Link to="/dashboard">Go to Dashboard</Link>
+              </Dropdown.Item>
+              :
+              <Dropdown.Item>
+                 <Link to="/vendor">Become A Vendor</Link>
+              </Dropdown.Item>
+              }
+              <Dropdown.Item onClick={handleLogout}>
+                
+                <Link to="/dashboard">Logout</Link>
+              </Dropdown.Item>
             </Dropdown>
             // <Nav.Item>{state.userInfo.name}</Nav.Item>
             :
