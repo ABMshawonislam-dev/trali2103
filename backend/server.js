@@ -6,6 +6,8 @@ const dealData = require('./dealData')
 const productData = require('./productData')
 const featureData = require('./featureCat')
 const User = require('./model/usermodel.js')
+const Storename = require('./model/storenameModel.js')
+const Product = require('./model/productUpload.js')
 const bcrypt = require('bcrypt');
 mongoose.connect('mongodb+srv://esmern:mern2103@cluster0.cfxjq.mongodb.net/trali?retryWrites=true&w=majority',()=>{
     console.log("DB Connected")
@@ -81,9 +83,60 @@ app.post("/login",async (req,res)=>{
    
 })
 
-app.put('/vendor/:id',async(req,res)=>{
+app.post('/product',(req,res)=>{
+    console.log(req.body)
+    let productInfo = {
+        name: req.body.name,
+        descripton: req.body.description,
+        brand: req.body.brand,
+        category: req.body.category,
+        size: req.body.size,
+        price: req.body.price,
+        color: req.body.color
+    }
+
+    const product = new Product(productInfo)
+    product.save()
+    res.send(product)
+
+})
+
+app.put('/vendor/:id',(req,res)=>{
     console.log(req.params)
-    const data = await User.findByIdAndUpdate(req.params.id,{isVendor: true},function(err,docs){
+   User.findByIdAndUpdate(req.params.id,{isVendor: true},{new:true},function(err,docs){
+        if(err){
+            console.log(err)
+        }else{
+            res.send(docs)
+        }
+    })
+})
+
+app.post('/storename',(req,res)=>{
+    console.log(req.body)
+
+    let storenameInfo = {
+        storename: req.body.storename,
+        owner: req.body.owner,
+        ownername: req.body.ownername
+    }
+
+    const storename = new Storename(storenameInfo)
+    storename.save()
+    res.send(storename)
+})
+
+app.get('/storename/:id',async (req,res)=>{
+
+    const data = await Storename.find({owner: req.params.id})
+    res.send(data)
+
+   
+})
+
+app.put('/storename',(req,res)=>{
+    console.log(req.body)
+  Storename.findByIdAndUpdate(req.body.id,{storename: req.body.storename},function(err,docs){
         if(err){
             console.log(err)
         }else{
@@ -92,6 +145,17 @@ app.put('/vendor/:id',async(req,res)=>{
     })
 })
 
+app.delete('/storename/:id',(req,res)=>{
+    console.log(req.body)
+  Storename.findByIdAndDelete(req.params.id,function(err,docs){
+    if(err){
+        console.log(err)
+    }else{
+        res.send("delete complete")
+        console.log(docs)
+    }
+})
+})
 app.listen(8000,()=>{
     console.log("Server Running on nport 8000")
 })
