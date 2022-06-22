@@ -1,16 +1,33 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {Panel} from 'rsuite'
 import {BsStarFill,BsStar,BsStarHalf,BsBag } from 'react-icons/bs';
+import { Store } from '../Store';
 
 const Product = (props) => {
 
+  const {cartstate,cartdispatch} = useContext(Store)
+  const {cart} = cartstate
   const [activeColor,setActivecolor] = useState("")
   const [activeSize,setActivesize] = useState("")
+
+  let handleCartProductAdd = (product) => {
+
+    const existingItem = cart.cartItems.find((item)=>item._id === product._id)
+
+    const quantity = existingItem?existingItem.quantity + 1:1
+
+    const color = activeColor
+    const size = activeSize
+
+    cartdispatch({type:'CART_ADD_PRODUCT',payload: {...product,quantity,color,size}})
+
+   
+  }
 
   return (
     <div className='singleproduct'>
       <Panel  bodyFill style={{ display: 'inline-block', width: "100%" }}>
-        <img src={props.img} style={{ width: "100%" }}/>
+        <img src={props.image} style={{ width: "100%" }}/>
        <div className="productbox">
          <div className="producticon">
             {props.rating >= 1 ? <BsStarFill className='staricon'/>:props.rating >= .5?<BsStarHalf className='staricon' />: <BsStar className='staricon' />}
@@ -39,7 +56,7 @@ const Product = (props) => {
          </div>
        </div>
 
-       <span className='cart'>
+       <span onClick={()=>handleCartProductAdd(props.product)} className='cart'>
          <BsBag className='productcart'/>
        </span>
        <span className='price'>

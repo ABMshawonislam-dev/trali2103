@@ -9,6 +9,7 @@ const Topproducts = () => {
     useEffect(()=>{
         async function fetchProduct(){
             let {data} = await axios.get("http://localhost:8000/products")
+            console.log(data)
             setProducts(data)
 
         }
@@ -36,11 +37,17 @@ const Topproducts = () => {
 
         <Grid>  
             <Row className="show-grid" gutter={30}>
-                {products.map(item=>(
+                {/* {products.map(item=>(
 
                     <Col xs={6}>
                         <Product img={item.image} heading={item.name} rating={item.rating} brand={item.brand} color={item.colors} size={item.sizes} price={item.price}/>
                     </Col>
+                ))} */}
+
+                {products.map(item=>(
+                    <Col xs={6}>
+                     <Product product={item}  heading={item.name}  brand={item.brand} color={item.color} image={item.image} size={item.size} price={item.price}/>
+                     </Col>
                 ))}
               
                 

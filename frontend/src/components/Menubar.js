@@ -1,5 +1,5 @@
 import React, { useEffect,useState,useContext } from 'react'
-import { Navbar, Nav, Dropdown,Container  } from 'rsuite';
+import { Navbar, Nav, Dropdown,Container,Drawer,List,Button,Message  } from 'rsuite';
 import { FaRegUserCircle} from 'react-icons/fa';
 import { AiOutlineHeart,AiOutlineShoppingCart} from 'react-icons/ai';
 import { BiGitCompare} from 'react-icons/bi';
@@ -9,9 +9,13 @@ import {Store} from '../Store'
 const Menubar = () => {
 
   let [logo,setLogo] = useState({}) 
-  const {state,dispatch} = useContext(Store)
+  const [open, setOpen] = useState(false);
+  const {state,dispatch,cartstate,cartdispatch} = useContext(Store)
 
-  console.log("ami Store theke aseci",state)
+
+  const {cart} = cartstate
+
+  console.log(cart.cartItems)
 
   useEffect(()=>{
     async function menu(){
@@ -25,6 +29,19 @@ const Menubar = () => {
     console.log("logout")
     dispatch({type:'USER_LOGOUT'})
     localStorage.removeItem('userInfo')
+  }
+
+  let handleQuantity = (item,quantity)=>{
+    cartdispatch({type:'CART_ADD_PRODUCT',payload: {...item,quantity}})
+  }
+  
+  let handleDeleteCart = (item)=>{
+    cartdispatch({type:'CART_REMOVE_PRODUCT',payload: item})
+
+  }
+
+  let handleClearCart = ()=>{
+    cartdispatch({type:'CLEAR_CART'})
   }
 
   return (
@@ -50,6 +67,12 @@ const Menubar = () => {
             {state.userInfo
             ?
             <Dropdown title={state.userInfo.name}>
+              {state.userInfo.isAdmin&&
+                <Dropdown.Item>
+                  <Link to="/admin">Admin Dashboard</Link>
+                </Dropdown.Item>
+
+              }
               <Dropdown.Item>New File</Dropdown.Item>
               <Dropdown.Item>New File with Current Profile</Dropdown.Item>
               <Dropdown.Item>Download As...</Dropdown.Item>
@@ -86,15 +109,56 @@ const Menubar = () => {
             <FaRegUserCircle className='icon'/>
             <AiOutlineHeart className='icon'/>
             <BiGitCompare className='icon'/>
-            <span className='cart'>
-            <AiOutlineShoppingCart className='icon'/>
-              <span className='round'>15</span>
-            </span>
+      
+        
+                  <span className='cart' onClick={() => setOpen(true)}>
+                    
+                    <AiOutlineShoppingCart className='icon'/>
+                      <span className='round'>{cart.cartItems.length}</span>
+                    </span>
+    
+            
             </div>
           </Nav>
       
     
   </Navbar>
+
+  <Drawer open={open} onClose={() => setOpen(false)}>
+        <Drawer.Header>
+          <Drawer.Title>Cart Items</Drawer.Title>
+          <Drawer.Actions>
+          </Drawer.Actions>
+        </Drawer.Header>
+        <Drawer.Body>
+          {cart.cartItems.length > 0
+            ?
+              <List>
+                {cart.cartItems.map(item=>(
+                  <List.Item>
+                    <img src={item.image} width="50"/>
+                    <h5 style={{display:'inline-block',margin:'0 10px'}}>{item.name}</h5>
+                    <h5 style={{display:'inline-block',margin:'0 10px'}}>{item.price}</h5>
+                    <h5 style={{display:'inline-block',margin:'0 10px'}}>{item.size}</h5>
+                    <h5 style={{display:'inline-block',margin:'0 10px',width:'10px',height:'10px',borderRadius:'50%',background:`#${item.color}`}}></h5>
+
+                    <Button onClick={()=>handleQuantity(item,item.quantity+1)} color="cyan" appearance="primary">+</Button>
+                      <h5 style={{display:'inline-block',margin:'0 10px'}}>{item.quantity}</h5>
+                    <Button onClick={()=>handleQuantity(item,item.quantity > 1 ? item.quantity-1 : item.quantity)} color="cyan" appearance="primary">-</Button>
+                    <Button onClick={()=>handleDeleteCart(item)} style={{margin:'0 10px'}} color="red" appearance="primary">Delete</Button>
+                  </List.Item>
+                ))}
+                <Link to='/cart'>
+                  <Button style={{margin:'10px'}} color="cyan" appearance="primary">Go To Cart Page</Button>
+                </Link>
+                <Button onClick={handleClearCart} style={{margin:'10px'}} color="red" appearance="primary">Clear Cart</Button>
+              </List>
+            :
+            <Message type="info">Cart Is Empty</Message>
+          }
+          
+        </Drawer.Body>
+      </Drawer>
   </Container>
   )
 }

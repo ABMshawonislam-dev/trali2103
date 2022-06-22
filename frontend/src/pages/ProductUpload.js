@@ -1,6 +1,6 @@
-import React,{useState,useRef} from 'react'
+import React,{useState,useRef, useEffect} from 'react'
 import SideDashboard from '../components/SideDashboard'
-import {Row,Col,Form,ButtonToolbar,Button,Checkbox} from 'rsuite'
+import {Row,Col,Form,ButtonToolbar,Button,Checkbox,SelectPicker} from 'rsuite'
 import JoditEditor from "jodit-react";
 import axios from 'axios'
 const ProductUpload = () => {
@@ -9,10 +9,13 @@ const ProductUpload = () => {
 	const [content, setContent] = useState('')
 	const [color, setColor] = useState([])
 	const [productname, setProductname] = useState('')
+	const [productimage, setProductImage] = useState('')
 	const [productbrand, setProductbrand] = useState('')
 	const [productcategory, setProductcategory] = useState('')
 	const [productprice, setProductprice] = useState('')
 	const [productsize, setProductsize] = useState([])
+	const [productposition, setProductposition] = useState([])
+	const [position, setPosition] = useState('')
 
 let handleColor = (e)=>{
     if(e.split("").indexOf("#") != -1){
@@ -70,6 +73,7 @@ let handleProductSubmit = async ()=>{
     let {data} = await axios.post('http://localhost:8000/product',{
         name: productname,
         description: content,
+        productimage:productimage,
         brand: productbrand,
         category: productcategory,
         price: productprice,
@@ -80,6 +84,18 @@ let handleProductSubmit = async ()=>{
 
     console.log(data)
 }
+
+let handleProductPosition = (e)=>{
+    setPosition(e)
+}
+
+useEffect(()=>{
+   async function position(){
+        let {data} = await axios.get('http://localhost:8000/productposition')
+    setProductposition(data)
+    }
+    position()
+},[])
 
   return (
     <Row className="show-grid" gutter={30}>
@@ -103,12 +119,20 @@ let handleProductSubmit = async ()=>{
             />
             </Form.Group>
             <Form.Group controlId="name-1">
+                <Form.ControlLabel >Product Image</Form.ControlLabel>
+                <Form.Control onChange={(e)=>setProductImage(e)} type="text" name="name" placeholder='Product Image'/>
+            </Form.Group>
+            <Form.Group controlId="name-1">
                 <Form.ControlLabel >Product Brand</Form.ControlLabel>
                 <Form.Control onChange={(e)=>setProductbrand(e)} type="text" name="name" placeholder='Product Brand'/>
             </Form.Group>
             <Form.Group controlId="name-1">
                 <Form.ControlLabel>Product Category</Form.ControlLabel>
                 <Form.Control onChange={(e)=>setProductcategory(e)} type="text" name="name" placeholder='Product Category'/>
+            </Form.Group>
+            <Form.Group controlId="name-1">
+                <Form.ControlLabel>Product Position</Form.ControlLabel>
+                <SelectPicker onChange={handleProductPosition} data={productposition}  block />
             </Form.Group>
             <Form.Group controlId="name-1">
                 <Form.ControlLabel>Product Price</Form.ControlLabel>

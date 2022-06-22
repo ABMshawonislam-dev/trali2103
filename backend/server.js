@@ -8,6 +8,7 @@ const featureData = require('./featureCat')
 const User = require('./model/usermodel.js')
 const Storename = require('./model/storenameModel.js')
 const Product = require('./model/productUpload.js')
+const ProductPosition = require('./model/productPositionModel.js')
 const bcrypt = require('bcrypt');
 mongoose.connect('mongodb+srv://esmern:mern2103@cluster0.cfxjq.mongodb.net/trali?retryWrites=true&w=majority',()=>{
     console.log("DB Connected")
@@ -34,9 +35,6 @@ app.get("/deal",function(req,res){
     res.send(dealData)
 })
 
-app.get("/products",function(req,res){
-    res.send(productData)
-})
 
 app.get("/feature",function(req,res){
     res.send(featureData)
@@ -88,6 +86,7 @@ app.post('/product',(req,res)=>{
     let productInfo = {
         name: req.body.name,
         descripton: req.body.description,
+        image: req.body.productimage,
         brand: req.body.brand,
         category: req.body.category,
         size: req.body.size,
@@ -100,6 +99,32 @@ app.post('/product',(req,res)=>{
     res.send(product)
 
 })
+
+app.get("/products",async function(req,res){
+    let data = await Product.find({})
+
+    res.send(data)
+})
+
+app.post('/productposition',(req,res)=>{
+    console.log(req.body)
+    let productpositionInfo = {
+        label: req.body.name,
+        value: req.body.value,
+
+    }
+
+    const position = new ProductPosition(productpositionInfo)
+    position.save()
+    res.send(position)
+
+})
+
+app.get('/productposition',async (req,res)=>{
+    let data = await ProductPosition.find({})
+    res.send(data)
+})
+
 
 app.put('/vendor/:id',(req,res)=>{
     console.log(req.params)
