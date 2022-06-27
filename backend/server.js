@@ -9,6 +9,7 @@ const User = require('./model/usermodel.js')
 const Storename = require('./model/storenameModel.js')
 const Product = require('./model/productUpload.js')
 const ProductPosition = require('./model/productPositionModel.js')
+const Cupon = require('./model/cuponModel.js')
 const bcrypt = require('bcrypt');
 mongoose.connect('mongodb+srv://esmern:mern2103@cluster0.cfxjq.mongodb.net/trali?retryWrites=true&w=majority',()=>{
     console.log("DB Connected")
@@ -181,6 +182,28 @@ app.delete('/storename/:id',(req,res)=>{
     }
 })
 })
+
+app.post('/cupon',(req,res)=>{
+    console.log(req.body)
+
+    let cuponInfo = {
+        cuponname: req.body.cuponname,
+        discountamount: req.body.discountamount
+    }
+
+    const cupon = new Cupon(cuponInfo)
+    cupon.save()
+})
+
+app.get('/cupon/:cupon',async (req,res)=>{
+    console.log(req.params.cupon)
+    let data = await Cupon.find({cuponname: req.params.cupon})
+    console.log(data)
+    res.send(data)
+
+})
+
+
 app.listen(8000,()=>{
     console.log("Server Running on nport 8000")
 })

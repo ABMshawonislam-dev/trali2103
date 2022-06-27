@@ -1,11 +1,18 @@
-import React, { useContext } from 'react'
-import {Grid,Row,Col,Message} from 'rsuite'
+import axios from 'axios'
+import React, { useContext, useEffect, useState } from 'react'
+import {Grid,Row,Col,Message,Input,Button} from 'rsuite'
 import { Store } from '../Store'
 
 const Cart = () => {
 
   let {cartstate,cartdispatch} = useContext(Store)
   const {cart} = cartstate
+  console.log(cart.cartItems)
+
+  let [total,setTotal] = useState('')
+  let [shipping,setShipping] = useState(50)
+  let [cupon,setCupon] = useState('')
+  let [discount,setDiscount] = useState('')
 
   let handleQuantity = (item,quantity)=>{
     cartdispatch({type:'CART_ADD_PRODUCT',payload: {...item,quantity}})
@@ -14,6 +21,29 @@ const Cart = () => {
   let handleDeleteCart = (item)=>{
     cartdispatch({type:'CART_REMOVE_PRODUCT',payload: item})
   }
+
+  let handleCupon = async ()=>{
+      let {data} = await axios.get(`http://localhost:8000/cupon/${cupon}`)
+      setDiscount(data[0].discountamount)
+      console.log(data)
+  }
+
+  useEffect(()=>{
+    let price =0
+    cart.cartItems.map(item=>{
+      price += item.price * item.quantity
+    })
+    setTotal(price)
+    if(price>=300){
+      setShipping(30)
+    }else if(price>=200){
+      setShipping(40)
+      
+    }else{
+      setShipping(50)
+      
+    }
+  },[cart.cartItems])
 
   return (
     <div className='container'>
@@ -75,10 +105,45 @@ const Cart = () => {
                         </Col>
                     </Row>
                   ))}
-                  
+
+                  <div className='cupon'>
+                    <h2>Coupon Discount</h2>
+                    <Input onChange={(e)=> setCupon(e)} placeholder="Enter your Cupon Code Here" />
+                    <Button onClick={handleCupon} color="orange" appearance="primary">Submit</Button>
+                  </div>
                 </Grid>
                 </Col>
-                <Col xs={8}>SHIPPING</Col>
+                <Col xs={8}>
+                  <div className='shipping'>
+                      <h3>SHIPPING</h3>
+                      <Input placeholder="State" />
+                      <Input placeholder="Address" />
+                      <Input placeholder="phone number" />
+
+                      <div className='box'>
+                        <div className='left'>
+                          <h5>Subtotal</h5>
+                        </div>
+                        <div className='right'>${total}</div>
+                      </div>
+                      <div className='box'>
+                        <div className='left'>
+                          <h5>Shipping</h5>
+                        </div>
+                        <div className='right'>${shipping}</div>
+                      </div>
+                      <div className='box'>
+                        <div className='left'>
+                          <h3>Order Total</h3>
+                        </div>
+                        <div className='right'>
+                          <h3>{discount?total+shipping-(((total+shipping)*discount)/100):total+shipping}</h3>
+                        </div>
+                      </div>
+
+                      <Button block color="violet" appearance="primary">Procesed to Checkout</Button>
+                  </div>
+                </Col>
               </Row>
             </Grid>
         </div>

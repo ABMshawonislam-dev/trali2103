@@ -477,5 +477,41 @@
     cursor: pointer;
 }
 
+.cartpage .shipping{
+    background: #EEF2F5;
+    padding: 60px;
+}
+
+.cartpage .shipping input{
+    border-radius: 50px;
+    margin-top: 10px;
+}
+
+.cartpage .shipping .box{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cartpage .cupon{
+    margin-top: 100px;
+    position: relative;
+    width: 580px;
+}
+
+.cartpage .cupon h2{
+    margin-bottom: 20px;
+}
+
+.cartpage .cupon input{
+    border-radius: 50px;
+}
+
+.cartpage .cupon button {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    border-radius: 18px;
+}
+
 
 

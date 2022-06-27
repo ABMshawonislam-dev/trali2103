@@ -12,7 +12,9 @@ const SideDashboard = () => {
         </Nav.Item><br/>
         <Nav.Item>Solutions</Nav.Item><br/>
         <Nav.Item>Products</Nav.Item><br/>
-        <Nav.Item>About</Nav.Item><br/>
+        <Nav.Item>
+          <Link to="/cupon">Cupon</Link> 
+        </Nav.Item><br/>
     </Nav>
   )
 }

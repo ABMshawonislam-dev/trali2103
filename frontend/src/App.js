@@ -14,6 +14,7 @@ import Storename from "./pages/Storename";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProductPosition from "./pages/ProductPosition";
 import Cart from "./pages/Cart";
+import Cupon from "./pages/Cupon";
 function App() {
   return (
     <>
@@ -30,6 +31,7 @@ function App() {
       <Route path="/admin" element={<AdminDashboard />}></Route>
       <Route path="/proposition" element={<ProductPosition />}></Route>
       <Route path="/cart" element={<Cart />}></Route>
+      <Route path="/cupon" element={<Cupon />}></Route>
     </Routes>
   </BrowserRouter>
       
