@@ -15,6 +15,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ProductPosition from "./pages/ProductPosition";
 import Cart from "./pages/Cart";
 import Cupon from "./pages/Cupon";
+import ProductDetails from "./pages/ProductDetails";
 function App() {
   return (
     <>
@@ -32,6 +33,7 @@ function App() {
       <Route path="/proposition" element={<ProductPosition />}></Route>
       <Route path="/cart" element={<Cart />}></Route>
       <Route path="/cupon" element={<Cupon />}></Route>
+      <Route path="/productdetails/:id" element={<ProductDetails />}></Route>
     </Routes>
   </BrowserRouter>
       

@@ -203,6 +203,13 @@ app.get('/cupon/:cupon',async (req,res)=>{
 
 })
 
+app.get('/productdetails/:id',async(req,res)=>{
+    
+    let data = await Product.findById(req.params.id)
+    res.send(data)
+
+})
+
 
 app.listen(8000,()=>{
     console.log("Server Running on nport 8000")

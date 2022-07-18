@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import {Panel} from 'rsuite'
 import {BsStarFill,BsStar,BsStarHalf,BsBag } from 'react-icons/bs';
 import { Store } from '../Store';
+import { Link } from 'react-router-dom';
 
 const Product = (props) => {
 
@@ -24,6 +25,8 @@ const Product = (props) => {
    
   }
 
+
+
   return (
     <div className='singleproduct'>
       <Panel  bodyFill style={{ display: 'inline-block', width: "100%" }}>
@@ -42,7 +45,8 @@ const Product = (props) => {
        </div>
         
        
-        <Panel header={props.heading}>
+        <Panel>
+          <Link to={`/productdetails/${props.product._id}`}>{props.heading}</Link>
         <div className="productbox">
          <div className="productcolorbox">
             {props.color.map(item=>(
