@@ -514,4 +514,22 @@
 }
 
 
+.productDetails h1{
+    font-family: 'Hind', sans-serif;
+    font-size: 78px;
+    font-weight: 700;
+    color: #252525
+}
+
+.productDetails p{
+    font-family: 'Hind', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #252525
+}
+
+.selected a{
+    color: red;
+}
+
 

@@ -2,6 +2,7 @@ import React, { useEffect,useState } from 'react'
 import axios from 'axios'
 import {Container,Grid,Row,Col } from 'rsuite';
 import Product from './Product';
+import Pagination from './Pagination'
 const Topproducts = () => {
 
     let [products,setProducts] = useState([])
@@ -44,13 +45,13 @@ const Topproducts = () => {
                     </Col>
                 ))} */}
 
-                {products.map(item=>(
+                {/* {products.map(item=>(
                     <Col xs={6}>
                      <Product product={item}  heading={item.name}  brand={item.brand} color={item.color} image={item.image} size={item.size} price={item.price}/>
                      </Col>
-                ))}
+                ))} */}
               
-                
+                <Pagination product={products}  itemsPerPage={2}/>
             </Row>
         </Grid>
     </Container>
