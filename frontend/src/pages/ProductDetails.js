@@ -33,7 +33,7 @@ const ProductDetails = () => {
             {product &&
                 <Row className="show-grid" gutter={30}>
                     <Col xs={12}>
-                        <img src={product.image}/>
+                        <img src="assets/images/productimg.png"/>
                     </Col>
                     <Col xs={12}>
                         <h1>{product.name}</h1>
