@@ -203,12 +203,21 @@ app.get('/cupon/:cupon',async (req,res)=>{
 
 })
 
+app.get('/productdetails/related/:brand',async(req,res)=>{
+    
+    let data = await Product.find({brand: req.params.brand}).limit(3)
+    res.send(data)
+
+})
+
 app.get('/productdetails/:id',async(req,res)=>{
     
     let data = await Product.findById(req.params.id)
     res.send(data)
 
 })
+
+
 
 
 app.listen(8000,()=>{
