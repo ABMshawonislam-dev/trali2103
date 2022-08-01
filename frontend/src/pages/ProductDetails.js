@@ -44,11 +44,7 @@ const ProductDetails = () => {
             {product &&
                 <Row className="show-grid" gutter={30}>
                     <Col xs={12}>
-<<<<<<< HEAD
-                        <img src="assets/images/productimg.png"/>
-=======
                         <img width="100%" src={`/${product.image}`}/>
->>>>>>> cbc136880c4ab6f8ab3fb601295d4a8cf447ce65
                     </Col>
                     <Col xs={12}>
                         <h1>{product.name}</h1>
